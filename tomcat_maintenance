@@ -1,0 +1,15 @@
+sudo su
+# Script to stop the server
+sh /opt/tomcat/apache-tomcat/bin/shutdown.sh
+ 
+# Script to check if the instance is stopped
+netstat -anp | grep 8080
+
+# Script to check if tomcat is shutdown successfully
+ps -aef | grep tomcat
+ 
+# Script to check if the start the server
+sh /opt/tomcat/apache-tomcat/bin/startup.sh
+ 
+#On started check if the logs are getting updated
+tail -f /opt/tomcat/apache-tomcat/logs/catalina.out
