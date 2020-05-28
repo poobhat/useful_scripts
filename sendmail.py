@@ -9,8 +9,8 @@ from email import encoders
 import os
 import sys
 
-SMTP_SERVER = '<smtp host ip address here>'
-SMTP_PORT = <smpt port>
+SMTP_SERVER = 'xxxxx'
+SMTP_PORT = 32
 
 # SMTP_USERNAME = ''
 # SMTP_PASSWORD = ''
@@ -30,11 +30,16 @@ body = email.MIMEText.MIMEText(MESSAGE)
 
 if len(sys.argv)==2:
 	FILENAME = sys.argv[1]
-	attachment = email.MIMEBase.MIMEBase('text', 'plain')
-	attachment.set_payload(open(FILENAME).read())
-	attachment.add_header('Content-Disposition', 'attachment', filename=os.path.basename(FILENAME))
-	encoders.encode_base64(attachment)
-	msg.attach(attachment)
+	if os.path.exists(FILENAME):
+		attachment = email.MIMEBase.MIMEBase('text', 'plain')
+		attachment.set_payload(open(FILENAME).read())
+		attachment.add_header('Content-Disposition', 'attachment', filename=os.path.basename(FILENAME))
+		encoders.encode_base64(attachment)
+		msg.attach(attachment)
+	else:
+		print('The file that you are trying to attach does not exist')
+		print('Aborting sendmail')
+		sys.exit()
 
 msg.attach(body)
 msg.add_header('From', SMTP_FROM)
